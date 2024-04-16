@@ -1,24 +1,31 @@
-import logo from './logo.svg';
+import Home from "./pages/HomePage/HomePage";
+import Category from "./pages/Category/Category";
+import Product from "./pages/Product/Product";
+import Cart from "./pages/Cart/Cart";
+import { React, useEffect } from "react";
+import $ from "jquery";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import './App.css';
 
 function App() {
+  let DEFAULT_ROUTE_PAGE = <Home />
+  useEffect(() => {
+    $("button[href]").unbind('click').on('click', function(){
+      console.log("button href: " + $(this).attr('href'));
+      if ($(this).attr('href')) {
+        window.location.href = $(this).attr('href');
+      }
+    });
+  })
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={DEFAULT_ROUTE_PAGE} />
+        <Route path="category" element={<Category />} />
+        <Route path="product" element={<Product />} />
+        <Route path="cart" element={<Cart />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
